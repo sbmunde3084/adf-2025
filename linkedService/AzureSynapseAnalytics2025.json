@@ -1,0 +1,17 @@
+{
+	"name": "AzureSynapseAnalytics2025",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDW",
+		"typeProperties": {
+			"server": "synapseworkspace25.sql.azuresynapse.net",
+			"database": "dedicatedpool",
+			"encrypt": "mandatory",
+			"trustServerCertificate": false,
+			"authenticationType": "SQL",
+			"userName": "sqladminuser",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDBBMkI5MzZBLTBFQ0YtNEQzRi05QzE1LTZGMjBEQjdFQjQwRl85MDQxYWVkMy03NGYxLTQxMDYtOTFiNy01YTNhNDczNDUxM2EiDQp9"
+		}
+	}
+}
