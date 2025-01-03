@@ -1,0 +1,69 @@
+{
+	"name": "dataflowJSONarray",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "JSONarrayInputdataset",
+						"type": "DatasetReference"
+					},
+					"name": "JSONarrray"
+				},
+				{
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSynapseAnalyticscust",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "flattenArray"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          customerid as integer,",
+				"          customername as string,",
+				"          registered as boolean,",
+				"          courses as string[]",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> JSONarrray",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false) ~> source1",
+				"JSONarrray foldDown(unroll(courses, courses),",
+				"     mapColumn(",
+				"          customerid,",
+				"          customername,",
+				"          registered,",
+				"          courses",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flattenArray",
+				"flattenArray sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     staged: true,",
+				"     allowCopyCommand: true,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+			]
+		}
+	}
+}

@@ -1,0 +1,12 @@
+{
+	"name": "AzureSynapseAnalyticscust",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSynapseAnalytics2025",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": []
+	}
+}
