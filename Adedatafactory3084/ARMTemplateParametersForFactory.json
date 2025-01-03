@@ -8,9 +8,6 @@
 		"AzureDataLakeStorage1_accountKey": {
 			"value": ""
 		},
-		"AzureSynapseAnalytics2_connectionString": {
-			"value": ""
-		},
 		"AzureSynapseAnalytics2025_password": {
 			"value": ""
 		},

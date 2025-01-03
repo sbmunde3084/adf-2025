@@ -11,10 +11,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
 		},
-		"AzureSynapseAnalytics2_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureSynapseAnalytics2'"
-		},
 		"AzureSynapseAnalytics2025_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'AzureSynapseAnalytics2025'"
@@ -68,9 +64,6 @@
 					},
 					"AzureDataLakeStorage1_accountKey": {
 						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
-					},
-					"AzureSynapseAnalytics2_connectionString": {
-						"value": "[parameters('AzureSynapseAnalytics2_connectionString')]"
 					},
 					"AzureSynapseAnalytics2025_password": {
 						"value": "[parameters('AzureSynapseAnalytics2025_password')]"
