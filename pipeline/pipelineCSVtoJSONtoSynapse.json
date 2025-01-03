@@ -1,5 +1,5 @@
 {
-	"name": "pipelineCSVtoJSON",
+	"name": "pipelineCSVtoJSONtoSynapse",
 	"properties": {
 		"activities": [
 			{
