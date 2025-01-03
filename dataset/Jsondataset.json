@@ -10,9 +10,44 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
+				"fileName": "Activitylog.json",
 				"fileSystem": "json"
 			}
 		},
-		"schema": {}
+		"schema": {
+			"type": "object",
+			"properties": {
+				"Correlationid": {
+					"type": "string"
+				},
+				"Operationname": {
+					"type": "string"
+				},
+				"Status": {
+					"type": "string"
+				},
+				"Eventcategory": {
+					"type": "string"
+				},
+				"Level": {
+					"type": "string"
+				},
+				"Subscription": {
+					"type": "string"
+				},
+				"Eventinitiatedby": {
+					"type": "string"
+				},
+				"Resourcetype": {
+					"type": "string"
+				},
+				"Resourcegroup": {
+					"type": "string"
+				},
+				"Resource": {
+					"type": "string"
+				}
+			}
+		}
 	}
 }

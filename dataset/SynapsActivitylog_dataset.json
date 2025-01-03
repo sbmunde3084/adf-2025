@@ -1,0 +1,16 @@
+{
+	"name": "SynapsActivitylog_dataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSynapseAnalytics2025",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "ActivityLog"
+		}
+	}
+}
