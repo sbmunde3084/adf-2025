@@ -179,13 +179,69 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
+						"fileName": "Activitylog.json",
 						"fileSystem": "json"
 					}
 				},
-				"schema": {}
+				"schema": {
+					"type": "object",
+					"properties": {
+						"Correlationid": {
+							"type": "string"
+						},
+						"Operationname": {
+							"type": "string"
+						},
+						"Status": {
+							"type": "string"
+						},
+						"Eventcategory": {
+							"type": "string"
+						},
+						"Level": {
+							"type": "string"
+						},
+						"Subscription": {
+							"type": "string"
+						},
+						"Eventinitiatedby": {
+							"type": "string"
+						},
+						"Resourcetype": {
+							"type": "string"
+						},
+						"Resourcegroup": {
+							"type": "string"
+						},
+						"Resource": {
+							"type": "string"
+						}
+					}
+				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SynapsActivitylog_dataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSynapseAnalytics2025",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlDWTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "ActivityLog"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSynapseAnalytics2025')]"
 			]
 		},
 		{
@@ -233,6 +289,18 @@
 						"     ignoreNoFilesFound: false) ~> Inputcsv",
 						"Inputcsv sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
+						"     input(",
+						"          Correlationid as string,",
+						"          Operationname as string,",
+						"          Status as string,",
+						"          Eventcategory as string,",
+						"          Level as string,",
+						"          Subscription as string,",
+						"          Eventinitiatedby as string,",
+						"          Resourcetype as string,",
+						"          Resourcegroup as string,",
+						"          Resource as string",
+						"     ),",
 						"     partitionFileNames:['Activitylog.json'],",
 						"     umask: 0022,",
 						"     preCommands: [],",
@@ -283,6 +351,66 @@
 							},
 							"traceLevel": "Fine"
 						}
+					},
+					{
+						"name": "Copy data Json to Csv",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Data flow CSV to JSON",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "SqlDWSink",
+								"allowCopyCommand": true,
+								"copyCommandSettings": {}
+							},
+							"enableStaging": true,
+							"stagingSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureDataLakeStorage1",
+									"type": "LinkedServiceReference"
+								},
+								"path": "staging"
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Jsondataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SynapsActivitylog_dataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
 				],
 				"policy": {
@@ -291,7 +419,10 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dataflowCSVtoJSON')]"
+				"[concat(variables('factoryId'), '/dataflows/dataflowCSVtoJSON')]",
+				"[concat(variables('factoryId'), '/datasets/Jsondataset')]",
+				"[concat(variables('factoryId'), '/datasets/SynapsActivitylog_dataset')]",
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
 			]
 		}
 	]
