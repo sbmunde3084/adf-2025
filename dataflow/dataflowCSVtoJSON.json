@@ -1,0 +1,52 @@
+{
+	"name": "dataflowCSVtoJSON",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "CSVdataset",
+						"type": "DatasetReference"
+					},
+					"name": "Inputcsv"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Jsondataset",
+						"type": "DatasetReference"
+					},
+					"name": "CSVtoJSON"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          Correlationid as string,",
+				"          Operationname as string,",
+				"          Status as string,",
+				"          Eventcategory as string,",
+				"          Level as string,",
+				"          Time as timestamp,",
+				"          Subscription as string,",
+				"          Eventinitiatedby as string,",
+				"          Resourcetype as string,",
+				"          Resourcegroup as string,",
+				"          Resource as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> Inputcsv",
+				"Inputcsv sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> CSVtoJSON"
+			]
+		}
+	}
+}
