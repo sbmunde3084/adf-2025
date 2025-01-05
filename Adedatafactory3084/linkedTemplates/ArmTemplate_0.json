@@ -72,45 +72,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/sysnapsearraydataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSynapseAnalytics1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlDWTable",
-				"schema": [
-					{
-						"name": "CustomerID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "CompanyName",
-						"type": "varchar"
-					},
-					{
-						"name": "RegisteredID",
-						"type": "bit"
-					},
-					{
-						"name": "Courses",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "Customecourses"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSynapseAnalytics1')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/CSVdataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -197,7 +158,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "customer.json",
+						"fileName": "customer (4).json",
 						"fileSystem": "customer"
 					}
 				},
@@ -217,6 +178,17 @@
 							"type": "array",
 							"items": {
 								"type": "string"
+							}
+						},
+						"details": {
+							"type": "object",
+							"properties": {
+								"mobile": {
+									"type": "string"
+								},
+								"city": {
+									"type": "string"
+								}
 							}
 						}
 					}
@@ -299,6 +271,53 @@
 				"typeProperties": {
 					"schema": "dbo",
 					"table": "ActivityLog"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSynapseAnalytics1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/sysnapsearraydataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSynapseAnalytics1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlDWTable",
+				"schema": [
+					{
+						"name": "CustomerID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CompanyName",
+						"type": "varchar"
+					},
+					{
+						"name": "RegisteredID",
+						"type": "bit"
+					},
+					{
+						"name": "Courses",
+						"type": "varchar"
+					},
+					{
+						"name": "Mobile",
+						"type": "varchar"
+					},
+					{
+						"name": "City",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "Customecourses"
 				}
 			},
 			"dependsOn": [
@@ -412,7 +431,8 @@
 						"          customerid as integer,",
 						"          customername as string,",
 						"          registered as boolean,",
-						"          courses as string[]",
+						"          courses as string[],",
+						"          details as (mobile as string, city as string)",
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
@@ -420,10 +440,12 @@
 						"     documentForm: 'arrayOfDocuments') ~> JSONarrray",
 						"JSONarrray foldDown(unroll(courses, courses),",
 						"     mapColumn(",
-						"          customerid,",
-						"          customername,",
-						"          registered,",
-						"          courses",
+						"          CustomerID = customerid,",
+						"          CompanyName = customername,",
+						"          RegisteredID = registered,",
+						"          Courses = courses,",
+						"          Mobile = details.mobile,",
+						"          City = details.city",
 						"     ),",
 						"     skipDuplicateMapInputs: false,",
 						"     skipDuplicateMapOutputs: false) ~> flattenArray",
@@ -433,7 +455,9 @@
 						"          CustomerID as integer,",
 						"          CompanyName as string,",
 						"          RegisteredID as boolean,",
-						"          Courses as string",
+						"          Courses as string,",
+						"          Mobile as string,",
+						"          City as string",
 						"     ),",
 						"     deletable:false,",
 						"     insertable:true,",
@@ -446,10 +470,12 @@
 						"     skipDuplicateMapOutputs: true,",
 						"     errorHandlingOption: 'stopOnFirstError',",
 						"     mapColumn(",
-						"          CustomerID = customerid,",
-						"          CompanyName = customername,",
-						"          RegisteredID = registered,",
-						"          Courses = courses",
+						"          CustomerID,",
+						"          CompanyName,",
+						"          RegisteredID,",
+						"          Courses,",
+						"          Mobile,",
+						"          City",
 						"     )) ~> snapsecoursecoursearray"
 					]
 				}
