@@ -2,7 +2,7 @@
 	"name": "AzureSynapseAnalyticscust",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureSynapseAnalytics2025",
+			"referenceName": "AzureSynapseAnalytics1",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
