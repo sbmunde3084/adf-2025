@@ -8,7 +8,7 @@
 		"AzureDataLakeStorage1_accountKey": {
 			"value": ""
 		},
-		"AzureSynapseAnalytics1_password": {
+		"AzureSynapseAnalytics1_connectionString": {
 			"value": ""
 		},
 		"Azuresqldb_Ls_connectionString": {
@@ -16,15 +16,6 @@
 		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"value": "https://storage2025ade.dfs.core.windows.net/"
-		},
-		"AzureSynapseAnalytics1_properties_typeProperties_server": {
-			"value": "synapseworkspace25.sql.azuresynapse.net"
-		},
-		"AzureSynapseAnalytics1_properties_typeProperties_database": {
-			"value": "dedicatedpool"
-		},
-		"AzureSynapseAnalytics1_properties_typeProperties_userName": {
-			"value": "sqladminuser"
 		}
 	}
 }
