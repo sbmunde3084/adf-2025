@@ -606,7 +606,13 @@
 						"     allowCopyCommand: true,",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> snapsecoursecoursearray"
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          CustomerID = customerid,",
+						"          CompanyName = customername,",
+						"          RegisteredID = registered,",
+						"          Courses = courses",
+						"     )) ~> snapsecoursecoursearray"
 					]
 				}
 			},
