@@ -1,5 +1,5 @@
 {
-	"name": "AzureSynapseAnalyticscust",
+	"name": "sysnapsearraydataset",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureSynapseAnalytics1",
@@ -7,7 +7,25 @@
 		},
 		"annotations": [],
 		"type": "AzureSqlDWTable",
-		"schema": [],
+		"schema": [
+			{
+				"name": "CustomerID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CompanyName",
+				"type": "varchar"
+			},
+			{
+				"name": "RegisteredID",
+				"type": "bit"
+			},
+			{
+				"name": "Courses",
+				"type": "varchar"
+			}
+		],
 		"typeProperties": {
 			"schema": "dbo",
 			"table": "Customecourses"

@@ -15,7 +15,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "AzureSynapseAnalyticscust",
+						"referenceName": "sysnapsearraydataset",
 						"type": "DatasetReference"
 					},
 					"name": "snapsecoursecoursearray"
@@ -48,6 +48,12 @@
 				"     skipDuplicateMapOutputs: false) ~> flattenArray",
 				"flattenArray sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     input(",
+				"          CustomerID as integer,",
+				"          CompanyName as string,",
+				"          RegisteredID as boolean,",
+				"          Courses as string",
+				"     ),",
 				"     deletable:false,",
 				"     insertable:true,",
 				"     updateable:false,",
