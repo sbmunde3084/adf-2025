@@ -11,9 +11,9 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
 		},
-		"AzureSynapseAnalytics2025_password": {
+		"AzureSynapseAnalytics1_password": {
 			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'AzureSynapseAnalytics2025'"
+			"metadata": "Secure string for 'password' of 'AzureSynapseAnalytics1'"
 		},
 		"Azuresqldb_Ls_connectionString": {
 			"type": "secureString",
@@ -23,15 +23,15 @@
 			"type": "string",
 			"defaultValue": "https://storage2025ade.dfs.core.windows.net/"
 		},
-		"AzureSynapseAnalytics2025_properties_typeProperties_server": {
+		"AzureSynapseAnalytics1_properties_typeProperties_server": {
 			"type": "string",
 			"defaultValue": "synapseworkspace25.sql.azuresynapse.net"
 		},
-		"AzureSynapseAnalytics2025_properties_typeProperties_database": {
+		"AzureSynapseAnalytics1_properties_typeProperties_database": {
 			"type": "string",
 			"defaultValue": "dedicatedpool"
 		},
-		"AzureSynapseAnalytics2025_properties_typeProperties_userName": {
+		"AzureSynapseAnalytics1_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "sqladminuser"
 		}
@@ -203,24 +203,42 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureSynapseAnalyticscust')]",
+			"name": "[concat(parameters('factoryName'), '/sysnapsearraydataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "AzureSynapseAnalytics2025",
+					"referenceName": "AzureSynapseAnalytics1",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
 				"type": "AzureSqlDWTable",
-				"schema": [],
+				"schema": [
+					{
+						"name": "CustomerID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CompanyName",
+						"type": "varchar"
+					},
+					{
+						"name": "RegisteredID",
+						"type": "bit"
+					},
+					{
+						"name": "Courses",
+						"type": "varchar"
+					}
+				],
 				"typeProperties": {
 					"schema": "dbo",
 					"table": "Customecourses"
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSynapseAnalytics2025')]"
+				"[concat(variables('factoryId'), '/linkedServices/AzureSynapseAnalytics1')]"
 			]
 		},
 		{
@@ -403,7 +421,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "AzureSynapseAnalytics2025",
+					"referenceName": "AzureSynapseAnalytics1",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
@@ -415,7 +433,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSynapseAnalytics2025')]"
+				"[concat(variables('factoryId'), '/linkedServices/AzureSynapseAnalytics1')]"
 			]
 		},
 		{
@@ -436,22 +454,22 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureSynapseAnalytics2025')]",
+			"name": "[concat(parameters('factoryName'), '/AzureSynapseAnalytics1')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
 				"type": "AzureSqlDW",
 				"typeProperties": {
-					"server": "[parameters('AzureSynapseAnalytics2025_properties_typeProperties_server')]",
-					"database": "[parameters('AzureSynapseAnalytics2025_properties_typeProperties_database')]",
+					"server": "[parameters('AzureSynapseAnalytics1_properties_typeProperties_server')]",
+					"database": "[parameters('AzureSynapseAnalytics1_properties_typeProperties_database')]",
 					"encrypt": "mandatory",
 					"trustServerCertificate": false,
 					"authenticationType": "SQL",
-					"userName": "[parameters('AzureSynapseAnalytics2025_properties_typeProperties_userName')]",
+					"userName": "[parameters('AzureSynapseAnalytics1_properties_typeProperties_userName')]",
 					"password": {
 						"type": "SecureString",
-						"value": "[parameters('AzureSynapseAnalytics2025_password')]"
+						"value": "[parameters('AzureSynapseAnalytics1_password')]"
 					}
 				}
 			},
@@ -561,7 +579,7 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "AzureSynapseAnalyticscust",
+								"referenceName": "sysnapsearraydataset",
 								"type": "DatasetReference"
 							},
 							"name": "snapsecoursecoursearray"
@@ -594,6 +612,12 @@
 						"     skipDuplicateMapOutputs: false) ~> flattenArray",
 						"flattenArray sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
+						"     input(",
+						"          CustomerID as integer,",
+						"          CompanyName as string,",
+						"          RegisteredID as boolean,",
+						"          Courses as string",
+						"     ),",
 						"     deletable:false,",
 						"     insertable:true,",
 						"     updateable:false,",
@@ -609,7 +633,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/JSONarrayInputdataset')]",
-				"[concat(variables('factoryId'), '/datasets/AzureSynapseAnalyticscust')]"
+				"[concat(variables('factoryId'), '/datasets/sysnapsearraydataset')]"
 			]
 		}
 	]
