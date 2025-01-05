@@ -10,9 +10,6 @@
 						"type": "DatasetReference"
 					},
 					"name": "JSONarrray"
-				},
-				{
-					"name": "source1"
 				}
 			],
 			"sinks": [
@@ -21,7 +18,7 @@
 						"referenceName": "AzureSynapseAnalyticscust",
 						"type": "DatasetReference"
 					},
-					"name": "sink1"
+					"name": "snapsecoursecoursearray"
 				}
 			],
 			"transformations": [
@@ -39,9 +36,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
-				"     documentForm: 'documentPerLine') ~> JSONarrray",
-				"source(allowSchemaDrift: true,",
-				"     validateSchema: false) ~> source1",
+				"     documentForm: 'arrayOfDocuments') ~> JSONarrray",
 				"JSONarrray foldDown(unroll(courses, courses),",
 				"     mapColumn(",
 				"          customerid,",
@@ -62,7 +57,7 @@
 				"     allowCopyCommand: true,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+				"     errorHandlingOption: 'stopOnFirstError') ~> snapsecoursecoursearray"
 			]
 		}
 	}
