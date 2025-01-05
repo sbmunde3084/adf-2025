@@ -1,0 +1,7 @@
+{
+	"name": "AzureDAIR",
+	"properties": {
+		"type": "SelfHosted",
+		"description": "Learning purpose"
+	}
+}
