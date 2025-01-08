@@ -1,0 +1,30 @@
+{
+	"name": "copy_childiteams_to_sql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Azuresqldb_Ls",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CustomerID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CompanyName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SalesPerson",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SalesLT",
+			"table": "NewCustomerTable"
+		}
+	}
+}
