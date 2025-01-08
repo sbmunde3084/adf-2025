@@ -541,14 +541,8 @@
 										},
 										"sink": {
 											"type": "AzureSqlSink",
-											"writeBehavior": {
-												"value": "@item().childItems",
-												"type": "Expression"
-											},
+											"writeBehavior": "insert",
 											"sqlWriterUseTableLock": true,
-											"upsertSettings": {
-												"useTempDB": true
-											},
 											"disableMetricsCollection": false
 										},
 										"enableStaging": false,
